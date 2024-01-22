@@ -1,0 +1,14 @@
+# No Of Slides:
+===============
+1. There are 4 items in one slide.
+2. If we have n items we will have n//4 + 1 slides if n is not divisible by 4.
+3. But if n is divisible by 4, we have n//4 slides.
+4. So the formula for no. of slides will be
+5. n/4 + ceil(n/4 - n//4) where ceil is least integer function
+
+# Python Logic:
+===============
+1. We will display the first item by default and give it the active tag.
+2. The next items will be fetched using a for loop.
+3. We will fetch all the details from the database and will show them in the homepage.
+4. Later we will do the same thing category-wise.

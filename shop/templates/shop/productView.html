@@ -1,0 +1,111 @@
+{% extends "shop/basic.html" %}
+
+{% block title %} Product View - My Awesome Cart {% endblock %}
+
+{% block body %}  
+
+<div class="container my-4">
+
+    <div class="row">
+
+         <div class="col-md-4"> 
+            <div class="row d-flex justify-content-center" style="padding-right:30%">
+                <img src="/media/{{product.image}}" width="400" alt="prod-img">
+            </div>
+            
+         </div>
+
+          <div class="col-md-8">
+            <h3>{{product.product_name}}</h3>
+            <h6><b>MRP: Rs {{product.price}}</b></h6>
+            <hr>
+            <h6>About the Product</h6>
+            <p>{{product.desc}}</p>
+            <hr>
+            <h6>Ingredients</h6>
+            <p>{{product.ingredients}}</p>
+            <hr>
+            <h6>Storage</h6>
+            <p>{{product.storage}}</p>
+          </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+  //  Cart Update Script
+
+  if(localStorage.getItem("cart")==null)
+   {
+     cart={};
+   }
+   else
+   {
+    cart=JSON.parse(localStorage.getItem("cart"));
+    document.getElementById('cart').innerHTML=Object.keys(cart).length;
+   }
+
+   $(".cart").click(function(){
+
+    idstr=this.id.toString();
+    if(cart[idstr]!=undefined)
+    {
+        cart[idstr]=cart[idstr]+1;
+    }
+    else
+    {
+        cart[idstr]=1;
+    }
+    localStorage.setItem('cart',JSON.stringify(cart))
+   })
+
+   $('#popcart').popover(); 
+
+  function updatePopover(cart){
+    var popStr=""
+    popStr=popStr+"<h5>Cart for your items in my shopping cart</h5><div class='mx-2 my-2'"
+    var i=1;
+    for(item in cart)
+    {
+      popStr=popStr+"<b>"+i+". </b>"
+      popStr=popStr+cart[item][1].slice(0,18)+" ...   &nbsp;&nbsp;Qty : "+cart[item][0]+"<br>";
+      i=i+1; 
+    }
+    popStr=popStr+"</div> <a href='/shop/checkout'><button class='btn btn-primary mx-2' id='checkout'>Checkout</button></a> <button class='btn btn-primary mx-2' onclick='clearCart()' id='clearCart'>Clear Cart</button>";
+    document.getElementById("popcart").setAttribute('data-content',popStr);
+    $("#popcart").popover('show');
+  }
+
+  updatePopover(cart);
+
+  function clearCart(){
+    cart=JSON.parse(localStorage.getItem('cart')); 
+    localStorage.clear();
+    cart={};
+    updateCart(cart);
+   }
+
+
+   function updateCart(cart) {
+    
+    var sum=0;
+    for (var item in cart) { 
+      sum=sum+1;
+    }
+    localStorage.setItem('cart',JSON.stringify(cart))
+    document.getElementById('cart').innerHTML=sum; 
+    updatePopover(cart);
+  }
+
+
+
+</script>
+
+{% endblock %}
+
+ 

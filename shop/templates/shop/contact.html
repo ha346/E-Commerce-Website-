@@ -1,0 +1,122 @@
+{% extends "shop/basic.html" %}
+
+{% block contactactive %}  active {% endblock contactactive %}
+
+{% block title %} Contact Us - My Awesome Cart {% endblock %}
+
+{% block body %}  
+
+<div class="container my-4">
+    {% if thank %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+       <strong>Success!</strong> Your details has been saved.
+       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div> 
+    {% endif %}
+
+    <h3>Contact Us</h3>
+    <form action="/shop/contact/" method="post"> {% csrf_token %}
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name">
+        </div> 
+
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email Address">
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Mobile Number</label>
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Your Mobile Number">
+        </div>
+         
+        <div class="form-group">
+          <label for="desc">How May We Help You</label>
+          <textarea class="form-control" id="desc" rows="3" name="desc"></textarea>
+        </div>
+
+         <button type="submit" class="btn btn-success">Submit</button>
+
+       
+
+      </form>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+  
+//  Cart Update Script
+
+if(localStorage.getItem("cart")==null)
+   {
+    cart={};
+   }
+   else
+   {
+    cart=JSON.parse(localStorage.getItem("cart"));
+    document.getElementById('cart').innerHTML=Object.keys(cart).length;
+   }
+
+   $(".cart").click(function(){
+
+    idstr=this.id.toString();
+    if(cart[idstr]!=undefined)
+    {
+        cart[idstr]=cart[idstr]+1;
+    }
+    else
+    {
+        cart[idstr]=1;
+    }
+    localStorage.setItem('cart',JSON.stringify(cart))
+   })
+
+   $('#popcart').popover(); 
+
+  function updatePopover(cart){
+    var popStr=""
+    popStr=popStr+"<h5>Cart for your items in my shopping cart</h5><div class='mx-2 my-2'"
+    var i=1;
+    for(item in cart)
+    {
+      popStr=popStr+"<b>"+i+". </b>"
+      popStr=popStr+cart[item][1].slice(0,18)+" ...   &nbsp;&nbsp;Qty : "+cart[item][0]+"<br>";
+      i=i+1; 
+    }
+    popStr=popStr+"</div> <a href='/shop/checkout'><button class='btn btn-primary mx-2' id='checkout'>Checkout</button></a> <button class='btn btn-primary mx-2' onclick='clearCart()' id='clearCart'>Clear Cart</button>";
+    document.getElementById("popcart").setAttribute('data-content',popStr);
+    $("#popcart").popover('show');
+  }
+
+  updatePopover(cart);
+
+  function clearCart(){
+    cart=JSON.parse(localStorage.getItem('cart')); 
+    localStorage.clear();
+    cart={};
+    updateCart(cart);
+   }
+
+
+   function updateCart(cart) {
+    
+    var sum=0;
+    for (var item in cart) { 
+      sum=sum+1;
+    }
+    localStorage.setItem('cart',JSON.stringify(cart))
+    document.getElementById('cart').innerHTML=sum; 
+    updatePopover(cart);
+  }
+ 
+</script>
+
+{% endblock %}

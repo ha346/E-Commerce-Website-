@@ -1,0 +1,150 @@
+{% extends 'shop/basic.html' %}
+
+{% block aboutactive %}  active {% endblock aboutactive %}
+
+{% block title %} About - My Awesome Cart {% endblock %}
+
+{% block body %}
+
+<main role="main"> 
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="container my-4">
+    <h1 class="heading d-flex justify-content-center"> My Awesome Cart : About Us</h1>
+    <p>It seems you are very much interested in what My Awesome Cart has hidden here, let’s take a tour so you can know more about us and maybe after this, we can become best of buddies.</p>
+
+    <div class="d-flex justify-content-center">
+    <img src="/media/shop/images/ourStory.jpg" alt="" width="700" height="600">
+    </div>
+  </div>
+
+  
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-3">Our Story : My Awesome Cart</h1>
+        <p>
+          The story of My Awesome Cart is very simple and holds the essence of vision, hard work, and perseverance. My Awesome Cart runs with the idea of providing the best to the customers because there is no feeling better than customer satisfaction. The prime focus of My Awesome Cart is to create products that represent the young souls by acting as a replica of their thoughts, personality, and choices.
+        </p>
+        <p>
+          My Awesome Cart was born in the year 2022, with the idea of four creative souls whose prime purpose was to establish an e-commerce brand that represents the common Indian young souls when it comes to fashion and accessories with distinctive and out of box designs and trendy product range.
+        </p>
+        <p>
+          The idea of My Awesome Cart is to represent young souls of today, who believe in speaking their heart and mind with the choices they make. The growth of My Awesome Cart as a brand says a story about being dynamic in what you believe. The My Awesome Cart Folks started by some creative souls in a small room with a leap of faith to become a brand that wins over customer’s trust with every product presented to them. My Awesome Cart as a brand focuses on creating products that My Awesome Cart can carry with them to represent their style, opinions, and personality while maintaining relevance to the latest fashion trends. Whatever we manufacture, whatever we create, or whatever we present to you, we make sure that it has the heart and soul of 'My Awesome Cart' in it.
+        </p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      </div>
+    </div>
+  
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>The Purpose Behind Official My Awesome Cart Website</h2>
+          <p>As My Awesome Cart, we believe that we have a diverse range of products, be it T-shirts for men and women, mobile covers and cases, or boxers. When you have such a diverse range to offer, getting them all together on one platform like My Awesome Cart website is the best you can do because this way the customer will get easy access to their desired products.
+          </p>
+          <p>
+            While visiting the My Awesome Cart the website, the customers will encounter the smoothest shopping experience because the range My Awesome Cart has to offer is wide and represents the modern trends of fashion and comfort. From Men’s t-shirts to mobile covers, women’s t-shirts, men’s boxers, women’s boxers, and design it yourself options for covers and t-shirts it what makes My Awesome Cart the master of its art. My Awesome Cart works on the purpose of satisfying the people with a unique sort of taste in the things they carry or the clothes they wear.
+          </p>
+          <p><a class="btn btn-secondary" href="/" role="button">View Products &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>My Awesome Cart is About Creating Products That Are Worth Remembering</h2>
+          <p>My Awesome Cart is the homegrown lifestyle brand that has truly worked for creating things that leave their mark for a long time; My Awesome Cart is about creating a product range that can leave their impact on a user's mind for a long duration or maybe for an eternity.
+         </p>
+         <p>
+          My Awesome Cart has seamlessly worked towards introducing a product range that is capable ofcountering modern-day fashion trends without making the users compromise on their comfort or budget. My Awesome Cart offers a range of t-shirts, shirts, boxers, and mobilecovers which are manufactured using the premium quality of raw materials, as compromising on quality is not something that My Awesome Cart believes in.</p>
+          </p>
+          <p><a class="btn btn-secondary" href="/" role="button">View Products &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>My Awesome Cart is A Team of enthusiastic people who loves to create and innovate to fulfill your expectations</h2>
+          <p>When My Awesome Cart was first introduced to the world, it had team members in numbers which can be counted on fingers, but as the time moved My Awesome Cart has grown to a team of 100+ members who work energetically towards bringing a range of products that you will admire and shop eagerly. My Awesome Cart's teams work with the liability that their customers which they lovingly identify as My Awesome Cart do not face any inconvenience while shopping or after shopping because of the quality or design.
+          </p>
+          <p>
+          The team My Awesome Cart actively works towards creating an atmosphere where customer’s needs are taken care of be it designing, manufacturing, or delivery of the products.
+          </p>
+          <p><a class="btn btn-secondary" href="/" role="button">View Products &raquo;</a></p>
+        </div>
+      </div>
+  
+      <hr>
+  
+    </div> <!-- /container -->
+  
+  </main>
+  
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+   if(localStorage.getItem("cart")==null)
+   {
+    cart={};
+   }
+   else
+   {
+    cart=JSON.parse(localStorage.getItem("cart"));
+    document.getElementById('cart').innerHTML=Object.keys(cart).length;
+   }
+
+   $(".cart").click(function(){
+
+    idstr=this.id.toString();
+    if(cart[idstr]!=undefined)
+    {
+        cart[idstr]=cart[idstr]+1;
+    }
+    else
+    {
+        cart[idstr]=1;
+    }
+    localStorage.setItem('cart',JSON.stringify(cart))
+   })
+
+   $('#popcart').popover(); 
+
+  function updatePopover(cart){
+    var popStr=""
+    popStr=popStr+"<h5>Cart for your items in my shopping cart</h5><div class='mx-2 my-2'"
+    var i=1;
+    for(item in cart)
+    {
+      popStr=popStr+"<b>"+i+". </b>"
+      popStr=popStr+cart[item][1].slice(0,18)+" ...   &nbsp;&nbsp;Qty : "+cart[item][0]+"<br>";
+      i=i+1; 
+    }
+    popStr=popStr+"</div> <a href='/shop/checkout'><button class='btn btn-primary mx-2' id='checkout'>Checkout</button></a> <button class='btn btn-primary mx-2' onclick='clearCart()' id='clearCart'>Clear Cart</button>";
+    document.getElementById("popcart").setAttribute('data-content',popStr);
+    $("#popcart").popover('show');
+  }
+
+  updatePopover(cart);
+
+  function clearCart(){
+    cart=JSON.parse(localStorage.getItem('cart')); 
+    localStorage.clear();
+    cart={};
+    updateCart(cart);
+   }
+
+
+   function updateCart(cart) {
+    
+    var sum=0;
+    for (var item in cart) { 
+      sum=sum+1;
+    }
+    localStorage.setItem('cart',JSON.stringify(cart))
+    document.getElementById('cart').innerHTML=sum; 
+    updatePopover(cart);
+  }
+
+</script>
+
+{% endblock %}
+
+ 

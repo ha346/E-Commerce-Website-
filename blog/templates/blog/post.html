@@ -1,0 +1,62 @@
+{%extends 'blog/basic.html'%}
+
+{% block title %} Post Blog {% endblock title %}
+
+{% block postactive %} active {% endblock postactive %}
+
+ {% block body %}
+ <div class="container my-4">
+
+    {% if warning %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+       <strong>Warning!</strong> The heading must contain 5 characters, Title must contain 10 characters, Author name must contain 5 characters and Content must contain 10 characters.
+       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div> 
+    {% endif %}
+
+
+    {% if success %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+       <strong>Success!</strong> Your post has been successfully submitted.
+       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+    {% endif %}
+
+
+
+
+  <h1>Add a New Post</h1>
+  <form method="post" class="my-3" action="/blog/submitpost" enctype="multipart/form-data"> {% csrf_token %}
+        <div class="form-group">
+            <label for="heading">Main Heading</label>
+            <input type="text" class="form-control" id="heading" name="heading" aria-describedby="heading" required> 
+          </div>
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" aria-describedby="title" required> 
+          </div>
+          <div class="form-group">
+            <label for="author">Author Name</label>
+            <input type="text" class="form-control" id="author" name="author" aria-describedby="author" required> 
+          </div>
+          <div class="custom-file my-2"> 
+            <input type="file" class="custom-file-input" id="customFile" name="thumbnail" required>
+            <label class="custom-file-label" for="customFile">Choose image</label>
+          </div>
+          <div class="form-group my-2">
+            <label for="Content">Content</label>
+            <textarea id="mytextarea" name="content" required>Write your blog here!</textarea>
+          </div>
+          <button type="submit" class="btn btn-primary my-2">Submit</button>
+    </form>
+</div>
+    
+{% endblock body %}
+ 
+    
+   
+   
